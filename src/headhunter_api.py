@@ -1,5 +1,3 @@
-from http.client import responses
-
 from base_api import BaseAPI
 import requests
 
