@@ -1,5 +1,6 @@
-from base_api import BaseAPI
 import requests
+
+from src.base_api import BaseAPI
 
 
 class HeadHunterAPI(BaseAPI):
@@ -11,7 +12,7 @@ class HeadHunterAPI(BaseAPI):
         self.__headers = {'User-Agent': 'HH-User-Agent'}
 
     def send_request_by_base_url(self):
-        """Класс для проверки подключения к API hh.ru"""
+        """Метод для проверки подключения к API hh.ru"""
         try:
             response = requests.get(self.__base_url, headers=self.__headers)
             response.raise_for_status()
@@ -21,7 +22,8 @@ class HeadHunterAPI(BaseAPI):
             return None
 
     def get_vacancies(self, keyword: str):
-        params = {'text': keyword, 'per_page': 100, 'area': 53}
+        """"""
+        params = {'text': keyword, 'per_page': 10, 'area': 53}
         try:
             response = requests.get(self.__base_url, headers=self.__headers, params=params)  #Отправляем запрос на hh.ru
             print(f'Статус кода: {response.status_code}')  #Проверяем и печатаем статус кода
@@ -34,3 +36,8 @@ class HeadHunterAPI(BaseAPI):
         except requests.exceptions.RequestException as e:
             print(f"Ошибка при запросе к {self.__base_url}: {e}")
             return None
+
+hh_api = HeadHunterAPI()
+print(hh_api)
+vacancies_hh = hh_api.get_vacancies('Python')
+print(vacancies_hh)
