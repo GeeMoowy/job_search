@@ -37,17 +37,17 @@ class Vacancy:
         self.vacancies_obj = sorted(self.vacancies_obj, key=lambda v: v.salary_from, reverse=True)
         res = self.vacancies_obj[0:top_by_salary]
         return res
-
-
-api = HeadHunterAPI()
-vacancy_data_list = api.get_vacancies('Python')
-
-vacancy_instance = Vacancy('', '', 0, 0, '', '')
-vacancies_objects = vacancy_instance.cast_to_object(vacancy_data_list)
-
-for vacancy_res in vacancies_objects:
-    print(vacancy_res.salary_from)
-
-result = vacancy_instance.sort_by_salary(3)
-for vacancy in result:
-    print(vacancy.vacancy_name, vacancy.salary_from)
+#
+#
+# api = HeadHunterAPI()
+# vacancy_data_list = api.get_vacancies('Python')
+#
+# vacancy_instance = Vacancy('', '', 0, 0, '', '')
+# vacancies_objects = vacancy_instance.cast_to_object(vacancy_data_list)
+#
+# for vacancy_res in vacancies_objects:
+#     print(vacancy_res.salary_from)
+#
+# result = vacancy_instance.sort_by_salary(3)
+# for vacancy in result:
+#     print(vacancy.vacancy_name, vacancy.salary_from)
