@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Python-разработчик (Middle)",
+        "area": "Краснодар",
+        "salary_from": 150000,
+        "employer": "Sibdev",
+        "url": "https://hh.ru/vacancy/116480290"
+    },
+    {
+        "name": "Python Developer (Офис, Краснодар)",
+        "area": "Новороссийск",
+        "salary_from": 140000,
+        "employer": "Диджитал Сектор Поддержка",
+        "url": "https://hh.ru/vacancy/117312956"
+    },
+    {
+        "name": "Python Web3 разработчик",
+        "area": "Москва",
+        "salary_from": 100000,
+        "employer": "Полянский Герман Игоревич",
+        "url": "https://hh.ru/vacancy/117200391"
+    }
+]
