@@ -8,31 +8,35 @@ class HeadHunterAPI(BaseAPI):
 
     def __init__(self):
         """Конструктор метода для организации запроса на API hh.ru"""
+
         self.__base_url = 'https://api.hh.ru/vacancies'
         self.__headers = {'User-Agent': 'HH-User-Agent'}
 
-    def send_request_by_base_url(self):
+    def __connect(self):
         """Метод для проверки подключения к API hh.ru"""
-        try:
-            response = requests.get(self.__base_url, headers=self.__headers)
-            response.raise_for_status()
-            return response
-        except requests.exceptions.RequestException as e:
-            print(f"Ошибка при запросе к {self.__base_url}: {e}")
-            return None
+
+        response = requests.get(self.__base_url, headers=self.__headers)
+        if response.status_code != 200:
+            raise Exception(f"Ошибка подключения {response.status_code}")
+        return response
 
     def get_vacancies(self, keyword: str):
         """Метод получает вакансии сайта hh.ru по ключевому слову"""
-        params = {'text': keyword, 'per_page': 10, 'area': 53}
-        try:
-            response = requests.get(self.__base_url, headers=self.__headers, params=params)  #Отправляем запрос на hh.ru
-            print(f'Статус кода: {response.status_code}')  #Проверяем и печатаем статус кода
-            vacancies_data = response.json()  # Преобразуем ответ в формат json
-            if "items" in vacancies_data:
-                vacancies_list = [{"item": item} for item in vacancies_data["items"]]
-                return vacancies_list
-            else:
-                return "Ключ 'items' отсутствует"
-        except requests.exceptions.RequestException as e:
-            print(f"Ошибка при запросе к {self.__base_url}: {e}")
-            return None
+
+        self.__connect()
+        params = {'text': keyword, 'per_page': 20, 'area': 53}
+        response = requests.get(self.__base_url, headers=self.__headers, params=params)  #Отправляем запрос на hh.ru
+
+        if response.status_code != 200:
+            raise Exception(f"Ошибка получения данных: {response.status_code}")
+
+        vacancies = response.json().get('items', [])
+        return vacancies
+
+
+if __name__ == "__main__":
+    hh_api = HeadHunterAPI()
+    vacancies = hh_api.get_vacancies("Python")
+    print(vacancies)
+    for vacancy in vacancies:
+        print(vacancy)

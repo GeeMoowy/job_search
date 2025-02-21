@@ -3,11 +3,11 @@ from abc import ABC, abstractmethod
 
 class BaseJobRepository(ABC):
     @abstractmethod
-    def add_vacancy(self, *args, **kwargs):
+    def read_vacancies(self):
         pass
 
     @abstractmethod
-    def get_vacancies(self, *args, **kwargs):
+    def add_vacancies(self, *args, **kwargs):
         pass
 
     @abstractmethod

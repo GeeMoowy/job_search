@@ -1,53 +1,132 @@
-from src.headhunter_api import HeadHunterAPI
 
 
 class Vacancy:
     """Класс для работы с вакансиями"""
-    vacancies_count = 0
-    __slots__ = ("vacancy_name", "area", "salary_from", "salary_to", "employer", "url", "vacancies_obj")
+    vacancy_name: str
+    area: str
+    salary_from: float
+    employer: str
+    url: str
+    vacancies_list: list
 
-    def __init__(self, vacancy_name, area, salary_from, salary_to, employer, url):
+    __slots__ = ("__vacancy_name", "__area", "__salary_from", "__employer", "__url", "__vacancies_list")
+
+    def __init__(self, vacancy_name, area, salary_from, employer, url):
         """Конструктор вакансий"""
-        self.vacancy_name = vacancy_name
-        self.area = area
-        self.salary_from = salary_from
-        self.salary_to = salary_to
-        self.employer = employer
-        self.url = url
-        self.vacancies_obj = []
-        Vacancy.vacancies_count += 1
+        self.__vacancy_name = self.__validate_vacancy_name(vacancy_name)
+        self.__area = self.__validate_area(area)
+        self.__salary_from = self.__validate_salary_from(salary_from)
+        self.__employer = self.__validate_employer(employer)
+        self.__url = self.__validate_url(url)
+        self.__vacancies_list = []
 
-    def cast_to_object(self, vacancy_list):
-        for vacancy in vacancy_list:
-            item = vacancy.get('item')
-            if item:  # Проверяем, что item не None
-                salary = item.get('salary')  # Получаем объект salary
-                vacancy_add = Vacancy(
-                    vacancy_name=item.get('name'),
-                    area=item.get('area', {}).get('name'),
-                    salary_from=salary.get('from') if salary else 0,
-                    salary_to=salary.get('to') if salary else 0,
-                    employer=item.get('employer', {}).get('name'),
-                    url=item.get('url')
-                )
-                self.vacancies_obj.append(vacancy_add)
-        return self.vacancies_obj
 
-    def sort_by_salary(self, top_by_salary: int):
-        self.vacancies_obj = sorted(self.vacancies_obj, key=lambda v: v.salary_from, reverse=True)
-        res = self.vacancies_obj[0:top_by_salary]
-        return res
-#
-#
-# api = HeadHunterAPI()
-# vacancy_data_list = api.get_vacancies('Python')
-#
-# vacancy_instance = Vacancy('', '', 0, 0, '', '')
-# vacancies_objects = vacancy_instance.cast_to_object(vacancy_data_list)
-#
-# for vacancy_res in vacancies_objects:
-#     print(vacancy_res.salary_from)
-#
-# result = vacancy_instance.sort_by_salary(3)
-# for vacancy in result:
-#     print(vacancy.vacancy_name, vacancy.salary_from)
+    @staticmethod
+    def __validate_vacancy_name(vacancy_name):
+        """Валидация названия вакансии"""
+        if not vacancy_name or not isinstance(vacancy_name, str):
+            return 'Неизвестная вакансия'
+        return vacancy_name
+
+    @staticmethod
+    def __validate_area(area):
+        """Валидация области вакансии"""
+        if not area or not isinstance(area, str):
+            return 'Неизвестная область'
+        return area
+
+    @staticmethod
+    def __validate_salary_from(salary_from):
+        """Валидация области вакансии"""
+        if not salary_from or salary_from < 0:
+            return 0
+        return salary_from
+
+    @staticmethod
+    def __validate_employer(employer):
+        """Валидация области вакансии"""
+        if not employer or not isinstance(employer, str):
+            return 'Неизвестный работодатель'
+        return employer
+
+    @staticmethod
+    def __validate_url(url):
+        """Валидация области вакансии"""
+        if not url or not isinstance(url, str):
+            return 'Неизвестная ссылка'
+        return url
+
+    @classmethod
+    def create_obj_list(cls, vacancies_list):
+        """Создание списка объектов Vacancy из списка словарей"""
+
+        object_list = []
+        for item in vacancies_list:
+            vacancy_name = item['name']
+            area = item.get('area', {}).get('name', 'Неизвестная область')
+            # Проверяем наличие 'salary' и его значение
+            salary_from = item.get('salary', {})
+            salary_from = salary_from.get('from', 0) if salary_from else 0  # Установим 0, если зарплата не указана
+            employer = item.get('employer', {}).get('name', 'Неизвестный работодатель')
+            url = item.get('alternate_url', 'Нет URL')  # Установим значение по умолчанию
+            vacancy = cls(vacancy_name, area, salary_from, employer, url)
+            object_list.append(vacancy)
+
+        return object_list
+
+    def add_vacancy(self, vacancy):
+        """Метод для добавления объекта вакансии в список"""
+        if isinstance(vacancy, Vacancy):
+            self.__vacancies_list.append(vacancy)
+        else:
+            raise ValueError("Добавляемый объект должен быть экземпляром класса Vacancy")
+
+    def get_vacancies(self):
+        """Метод для получения списка вакансий"""
+        return self.__vacancies_list
+
+    def __lt__(self, other):
+        """Сравнение вакансий по зарплате (меньше)"""
+        return self.__salary_from < other.__salary_from
+
+    def __le__(self, other):
+        """Сравнение вакансий по зарплате (меньше или равно)"""
+        return self.__salary_from <= other.__salary_from
+
+    def __gt__(self, other):
+        """Сравнение вакансий по зарплате (больше)"""
+        return self.__salary_from > other.__salary_from
+
+    def __ge__(self, other):
+        """Сравнение вакансий по зарплате (больше или равно)"""
+        return self.__salary_from >= other.__salary_from
+
+    def __eq__(self, other):
+        """Сравнение вакансий по зарплате (равно)"""
+        return self.__salary_from == other.__salary_from
+
+    @property
+    def vacancy_name(self):
+        return self.__vacancy_name
+
+    @property
+    def salary_from(self):
+        return self.__salary_from
+
+    @property
+    def employer(self):
+        return self.__employer
+
+    @property
+    def url(self):
+        return self.__url
+
+    @property
+    def area(self):
+        return self.__area
+
+
+    # def __repr__(self):
+    #     """Строковое представление вакансии"""
+    #     return (f"Vacancy(title={self.__vacancy_name}, salary={self.__salary_from}, company={self.__employer}, "
+    #             f"location={self.__area}, url={self.__url})")
