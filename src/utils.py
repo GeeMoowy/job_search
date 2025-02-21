@@ -8,7 +8,7 @@ def filter_by_words(vacancy_list, words_to_filter):
         filtered_vacancies = []
         for vacancy in vacancy_list:
             # Проверяем, содержится ли хотя бы одно из ключевых слов в названии вакансии
-            if any(keyword in vacancy.vacancy_name.lower() for keyword in words_to_filter):
+            if any(keyword in vacancy.vacancy_name for keyword in words_to_filter):
                 filtered_vacancies.append(vacancy)
         if len(filtered_vacancies) == 0:
             raise ValueError('Совпадения по ключевым слова не найдены')

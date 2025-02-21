@@ -23,7 +23,6 @@ class HeadHunterAPI(BaseAPI):
     def get_vacancies(self, keyword: str):
         """Метод получает вакансии сайта hh.ru по ключевому слову"""
 
-        self.__connect()
         params = {'text': keyword, 'per_page': 20, 'area': 53}
         response = requests.get(self.__base_url, headers=self.__headers, params=params)  #Отправляем запрос на hh.ru
 
