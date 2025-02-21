@@ -1,6 +1,6 @@
 import pytest
-from src.utils import filter_by_words, top_vacancies, filter_by_salary
-from src.vacancy import Vacancy
+
+from src.utils import filter_by_salary, filter_by_words, top_vacancies
 
 
 def test_filter_by_words(vacancy_list):
@@ -13,12 +13,14 @@ def test_filter_by_words(vacancy_list):
     with pytest.raises(ValueError, match='Совпадения по ключевым слова не найдены'):
         filter_by_words(vacancy_list, ["C++"])
 
+
 def test_top_vacancies(vacancy_list):
     """Тестирование функции получения топ N вакансий по зарплате."""
     top = top_vacancies(vacancy_list, 2)
     assert len(top) == 2
     assert top[0].vacancy_name == "Java Developer"  # Должен быть с самой высокой зарплатой
     assert top[1].vacancy_name == "Data Scientist"
+
 
 def test_filter_by_salary(vacancy_list):
     """Тестирование функции фильтрации по диапазону зарплат."""

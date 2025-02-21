@@ -27,11 +27,11 @@ def vacancies_list_dict():
                                         'специальностям "математика", "физика", "информатика" обязательно. - '
                                         'Базовые знания SQL. - R / <highlighttext>Python</highlighttext>, '
                                         'как преимущество. - ', 'responsibility': '...и анализ качества кредитного '
-                                                                                  'портфеля и эффективности действующих'
+                                                                                  'портфеля и эффективности действ.'
                                                                                   ' кредитных политик. - Анализ рынка '
                                                                                   'и конкурентной среды. - Построение '
                                                                                   'скоринговых моделей '
-                                                                                  '(R/<highlighttext>Python</highlighttext>).'},
+                                                                                  '(R/<highlighttext>).'},
              'contacts': None, 'schedule': {'id': 'remote', 'name': 'Удаленная работа'}, 'working_days': [],
              'working_time_intervals': [], 'working_time_modes': [], 'accept_temporary': False,
              'fly_in_fly_out_duration': [], 'work_format': [{'id': 'REMOTE', 'name': 'Удалённо'}],

@@ -1,10 +1,14 @@
+from unittest.mock import Mock
+
 import pytest
-from unittest.mock import patch, Mock
+
 from src.headhunter_api import HeadHunterAPI
+
 
 @pytest.fixture
 def api():
     return HeadHunterAPI()
+
 
 def test_connect_success(api, mocker):
     """Тест успешного соединения с API"""
@@ -17,6 +21,7 @@ def test_connect_success(api, mocker):
     response = api._HeadHunterAPI__connect()
     assert response == mock_response
 
+
 def test_connect_failure(api, mocker):
     """Тест неудачного соединения с API"""
     mock_response = Mock()
@@ -27,6 +32,7 @@ def test_connect_failure(api, mocker):
     with pytest.raises(Exception) as excinfo:
         api._HeadHunterAPI__connect()
     assert "Ошибка подключения 404" in str(excinfo.value)
+
 
 def test_get_vacancies_success(api, mocker):
     """Тест успешного получения вакансий"""
@@ -39,6 +45,7 @@ def test_get_vacancies_success(api, mocker):
     vacancies = api.get_vacancies("Python")
     assert len(vacancies) == 1
     assert vacancies[0]['name'] == 'Python Developer'
+
 
 def test_get_vacancies_failure(api, mocker):
     """Тест неудачного получения вакансий"""
