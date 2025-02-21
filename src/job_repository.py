@@ -1,25 +1,32 @@
-import os
-from typing import List
-from src.base_job_repository import BaseJobRepository
 import json
+import os
+from typing import Any, Dict, List
+
+from src.base_job_repository import BaseJobRepository
 from src.vacancy import Vacancy
 
 
 class JobRepository(BaseJobRepository):
     """Класс для записи вакансий в JSON-файл"""
 
-    def __init__(self, filename: str = 'data/my_vacancies.json'):
-        self.__filename = filename
+    filename: str
 
-    def read_vacancies(self):
-        """Получение вакансий по указанным критериям"""
+    def __init__(self, filename: str = 'data/my_vacancies.json') -> None:
+        """Конструктор класса JobRepository"""
+
+        self.__filename: str = filename
+
+    def read_vacancies(self) -> List[Dict[str, Any]]:
+        """Получение вакансий из файла"""
+
         if not os.path.exists(self.__filename):
             return []
         with open(self.__filename, 'r', encoding='utf-8') as file:
             return json.load(file)
 
-    def add_vacancies(self, vacancies: List[Vacancy]):
+    def add_vacancies(self, vacancies: List[Vacancy]) -> None:
         """Добавление списка вакансий в JSON-файл, избегая дубликатов"""
+
         existing_data = self.read_vacancies()
         existing_url = {vacancy['url'] for vacancy in existing_data}
 
@@ -37,14 +44,14 @@ class JobRepository(BaseJobRepository):
         else:
             print("Нет новых вакансий для добавления.")
 
-    def delete_vacancy(self):
+    def delete_vacancy(self) -> None:
         """Удаление всех вакансий из JSON-файла"""
-        with open(self.__filename, 'w', encoding='utf-8') as f:
-            json.dump([], f, ensure_ascii=False, indent=4)  # Записываем пустой список
+        with open(self.__filename, 'w', encoding='utf-8') as file:
+            json.dump([], file, ensure_ascii=False, indent=4)  # Записываем пустой список
         print("Все вакансии были удалены.")
 
     @staticmethod
-    def vacancy_to_dict(vacancy: 'Vacancy') -> dict:
+    def vacancy_to_dict(vacancy: 'Vacancy') -> Dict[str, Any]:
         """Преобразование объекта Vacancy в словарь"""
         return {
             'name': vacancy.vacancy_name,

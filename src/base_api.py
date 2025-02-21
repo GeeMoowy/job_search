@@ -6,5 +6,5 @@ class BaseAPI(ABC):
 
     @abstractmethod
     def get_vacancies(self, *args, **kwargs):
-        """"""
+        """Абстрактный метод, обязательный для реализации в дочерних классах"""
         pass

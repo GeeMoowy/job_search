@@ -1,10 +1,10 @@
 from src.headhunter_api import HeadHunterAPI
 from src.job_repository import JobRepository
-from src.utils import top_vacancies, filter_by_words, filter_by_salary
+from src.utils import filter_by_salary, filter_by_words, top_vacancies
 from src.vacancy import Vacancy
 
 
-def main():
+def main() -> None:
 
     print('Поиск вакансий на платформе "HeadHunter"')
     hh_api = HeadHunterAPI()

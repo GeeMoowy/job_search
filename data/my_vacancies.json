@@ -19,5 +19,12 @@
         "salary_from": 100000,
         "employer": "Полянский Герман Игоревич",
         "url": "https://hh.ru/vacancy/117200391"
+    },
+    {
+        "name": "Web-программист",
+        "area": "Краснодар",
+        "salary_from": 120000,
+        "employer": "КИП-Сервис",
+        "url": "https://hh.ru/vacancy/116200836"
     }
 ]

@@ -1,7 +1,11 @@
+from typing import List
+
+from src.vacancy import Vacancy
 
 
-def filter_by_words(vacancy_list, words_to_filter):
+def filter_by_words(vacancy_list: List['Vacancy'], words_to_filter: List[str]) -> List['Vacancy']:
     """Функция фильтрации списка вакансий по заданным ключевым словам"""
+
     if len(words_to_filter) == 0:
         return vacancy_list
     else:
@@ -15,12 +19,11 @@ def filter_by_words(vacancy_list, words_to_filter):
         return filtered_vacancies
 
 
-def top_vacancies(vacancies, top_n):
+def top_vacancies(vacancies: List['Vacancy'], top_n: int) -> List['Vacancy']:
     """Выводит топ N вакансий по зарплате."""
     # Сортируем вакансии по зарплате в порядке убывания
     sorted_vacancies = sorted(vacancies, key=lambda v: v.salary_from, reverse=True)
 
-    # Берем только топ N вакансий
     top_vacancies = sorted_vacancies[:top_n]
 
     # Выводим информацию о топ N вакансиях
@@ -31,9 +34,9 @@ def top_vacancies(vacancies, top_n):
     return top_vacancies
 
 
-def filter_by_salary(vacancy_list, salary_range):
+def filter_by_salary(vacancy_list: List['Vacancy'], salary_range: str) -> List['Vacancy']:
     """Фильтрует вакансии по заданному диапазону зарплат."""
-    # Разделяем диапазон на минимальную и максимальную зарплату
+
     try:
         min_salary, max_salary = map(int, salary_range.split('-'))
     except ValueError:
